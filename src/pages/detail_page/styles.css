@@ -13,7 +13,9 @@
 
 .details {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
+  width: 100%;
 }
 
 .detail-name {
@@ -70,12 +72,16 @@
 }
 
 /* =============== */
+.detail-call,
+.detail-currency {
+  width: 100%;
+}
 
 .detail-first,
 .detail-second {
   display: flex;
-  flex-direction: column;
-  gap: 3rem;
+  flex-direction: row;
+  gap: 1rem;
   margin: 1rem 0;
 }
 
@@ -111,4 +117,28 @@
 .detail-currency div span {
   color: var(--color-black);
   font-size: 14px;
+}
+
+@media screen and (max-width: 767px) {
+  .detail-container {
+    margin: 1rem;
+  }
+
+  .detail-content {
+    width: 100%;
+  }
+
+  .details {
+    gap: 0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .detail-first,
+  .detail-second {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 }

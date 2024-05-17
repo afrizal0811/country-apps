@@ -3,9 +3,11 @@ import { Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getApi } from '../../utilities/handleApi'
+import IsMobile from '../../utilities/isMobile'
 
 const AntdSearch = () => {
   const navigate = useNavigate()
+  const isMobile = IsMobile()
 
   let timeout
   const fetch = (value, callback, searching) => {
@@ -86,7 +88,7 @@ const AntdSearch = () => {
     <SearchInput
       placeholder='Input Search Text'
       style={{
-        width: 700,
+        width: isMobile ? 300 : 700,
       }}
     />
   )

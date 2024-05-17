@@ -1,7 +1,6 @@
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import imageGlobe from '../../assets/images/globe.svg'
 import AntdButton from '../../components/button/AntdButton'
 import AntdCard from '../../components/card/AntdCard'
 import AntdImage from '../../components/image/AntdImage'
@@ -10,6 +9,7 @@ import AntdTooltip from '../../components/tooltip/AntdTooltip'
 import { getApi } from '../../utilities/handleApi'
 import { callingCodeSelector, currencySelector } from './help'
 import './styles.css'
+
 const DetailPage = () => {
   const [countries, setCountries] = useState([])
   const [callCodes, setCallCodes] = useState({ length: null, data: null })
@@ -80,31 +80,12 @@ const DetailPage = () => {
         </div>
         <div className='details'>
           <div className='detail-first'>
+            {/* ================ LATLONG ====================== */}
             <AntdCard className='detail-latlong'>
               <p>LatLong</p>
               <h1>{latlangs}</h1>
-              <div>
-                <AntdImage
-                  alt={name}
-                  className='img-globe'
-                  height={120}
-                  src={imageGlobe}
-                  width={205}
-                />
-              </div>
             </AntdCard>
-            <div className='detail-call'>
-              <p>Calling Code</p>
-              <h1>{callingCode}</h1>
-              <div>
-                <AntdTooltip data={callCodes.data}>
-                  <p>{callCodes.length} country</p>
-                </AntdTooltip>
-                <span>&nbsp;with this calling code</span>
-              </div>
-            </div>
-          </div>
-          <div className='detail-second'>
+            {/* ============= INFO LOCATION =================== */}
             <AntdCard className='detail-location'>
               <p>
                 Capital: <b>{capital}</b>
@@ -116,6 +97,20 @@ const DetailPage = () => {
                 Subregion: <b>{subregion}</b>
               </p>
             </AntdCard>
+          </div>
+          <div className='detail-second'>
+            {/* ================ CALL CODE ====================== */}
+            <div className='detail-call'>
+              <p>Calling Code</p>
+              <h1>{callingCode}</h1>
+              <div>
+                <AntdTooltip data={callCodes.data}>
+                  <p>{callCodes.length} country</p>
+                </AntdTooltip>
+                <span>&nbsp;with this calling code</span>
+              </div>
+            </div>
+            {/* ================ CURRECY ====================== */}
             <div className='detail-currency'>
               <p>Currency</p>
               <h1>{countryCurrency[0]}</h1>
