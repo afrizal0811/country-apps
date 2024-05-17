@@ -9,3 +9,7 @@ export const callingCodeSelector = (idd) => {
 export const currencySelector = (currencies) => {
   return Object.keys(currencies)
 }
+
+export const roundNumber = (num) => {
+  return (Math.round(num * 100) / 100).toFixed(1)
+}

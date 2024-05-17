@@ -42,8 +42,10 @@
   display: flex;
   flex-direction: row;
   font-weight: 700;
-  gap: 0.3rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
+
 .detail-name p {
   background-color: var(--color-middle-blue-green);
   border-radius: 50px;
@@ -132,6 +134,10 @@
     gap: 0rem;
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .detail-name span {
     align-items: center;
   }
 

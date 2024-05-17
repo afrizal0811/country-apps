@@ -7,7 +7,7 @@ import AntdImage from '../../components/image/AntdImage'
 import AntdSpin from '../../components/spin/AntdSpin'
 import AntdTooltip from '../../components/tooltip/AntdTooltip'
 import { getApi } from '../../utilities/handleApi'
-import { callingCodeSelector, currencySelector } from './help'
+import { callingCodeSelector, currencySelector, roundNumber } from './help'
 import './styles.css'
 
 const DetailPage = () => {
@@ -55,7 +55,8 @@ const DetailPage = () => {
       region,
       subregion,
     } = country
-    const latlangs = latlng[0] + `, ` + latlng[1]
+    
+    const latlangs = roundNumber(latlng[0]) + `, ` + roundNumber(latlng[1])
     const callingCode = callingCodeSelector(idd)
     const countryCurrency = currencySelector(currencies)
     const renderSpelling = altSpellings.map((spell) => <p>{spell}</p>)
