@@ -8,7 +8,7 @@ const AntdButton = (props) => {
     <Button
       icon={icon}
       onClick={onClick}
-      style={{ background: '#8362F2', color: 'white' }}
+      style={{ background: '#8362F2', color: 'white', marginBottom: '1rem' }}
     >
       {title}
     </Button>
