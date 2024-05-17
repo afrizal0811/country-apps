@@ -25,13 +25,13 @@ const AntdSearch = () => {
         const countryCommon = country.map((d) => d.common)
         callback(countryCommon)
       } else {
-        callback([])
+        callback(null)
       }
       searching(false)
     }
 
     if (value) {
-      timeout = setTimeout(option, 700)
+      timeout = setTimeout(option, 300)
     } else {
       callback([])
     }
@@ -76,7 +76,7 @@ const AntdSearch = () => {
         filterOption={false}
         onSearch={handleSearch}
         onChange={handleChange}
-        notFoundContent={data ? renderNotFound : null}
+        notFoundContent={data === null ? renderNotFound : null}
         options={handleOption(data)}
       />
     )
