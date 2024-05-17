@@ -1,19 +1,19 @@
 .detail-container {
+  align-items: start;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem;
+  margin: 3rem;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 0;
 }
 
 .details {
   display: flex;
   gap: 1rem;
-}
-.detail-content {
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
 }
 
 .detail-name {
@@ -36,22 +36,22 @@
 }
 
 .detail-name span {
+  color: var(--color-white);
   display: flex;
   flex-direction: row;
-  gap: 0.3rem;
-  color: var(--color-white);
   font-weight: 700;
+  gap: 0.3rem;
 }
 .detail-name p {
   background-color: var(--color-middle-blue-green);
-  padding: 0.5rem 1rem;
   border-radius: 50px;
+  padding: 0.5rem 1rem;
 }
 /* =============== */
 
 .detail-location {
-  display: flex;
   align-items: center;
+  display: flex;
 }
 
 .detail-location p {
@@ -59,6 +59,15 @@
   font-weight: 400;
 }
 /* =============== */
+.img-flag {
+  border: solid 1px var(--color-black);
+}
+
+.detail-latlong {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
 
 /* =============== */
 
@@ -70,17 +79,36 @@
   margin: 1rem 0;
 }
 
-.detail-latlong p,
 .detail-call p,
-.detail-currency p {
+.detail-currency p,
+.detail-latlong p {
   font-size: 18px;
   font-weight: 500;
 }
 
-.detail-latlong h1,
 .detail-call h1,
-.detail-currency h1 {
-  font-weight: 700;
-  font-size: 48px;
+.detail-currency h1,
+.detail-latlong h1 {
   color: var(--color-violets-are-blue);
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.detail-call div,
+.detail-currency div {
+  display: flex;
+  font-weight: 500;
+}
+
+.detail-call div p,
+.detail-currency div p {
+  color: var(--color-violets-are-blue);
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.detail-call div span,
+.detail-currency div span {
+  color: var(--color-black);
+  font-size: 14px;
 }

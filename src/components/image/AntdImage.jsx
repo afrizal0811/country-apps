@@ -2,11 +2,12 @@ import { Image } from 'antd'
 import React from 'react'
 
 const AntdImage = (props) => {
-  const { width, height, src, alt, style } = props
+  const { alt, className, height, src, style, width } = props
 
   return (
     <Image
       alt={alt}
+      className={className}
       width={width}
       height={height}
       src={src}

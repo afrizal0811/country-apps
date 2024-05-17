@@ -5,23 +5,43 @@ import AntdButton from '../../components/button/AntdButton'
 import AntdImage from '../../components/image/AntdImage'
 import { getApi } from '../../utilities/handleApi'
 // import AntdSpin from '../../components/spin/AntdSpin'
+import imageGlobe from '../../assets/images/globe.svg'
 import AntdCard from '../../components/card/AntdCard'
+import AntdTooltip from '../../components/tooltip/AntdTooltip'
+import { callingCodeSelector, currencySelector } from './help'
 import './styles.css'
-
 const DetailPage = () => {
-  const [data, setData] = useState([])
+  const [countries, setCountries] = useState([])
+  const [callCodes, setCallCodes] = useState({ length: null, data: null })
+  const [valutas, setValutas] = useState({ length: null, data: null })
   //   const [isLoading, setIsLoading] = useState(true)
   const { name } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
-    const url = `${process.env.REACT_APP_BASE_URL}/name/${name}?fullText=true`
-    const fetch = async () => {
-      setData(await getApi(url))
+    const fecthData = async (url, setData) => {
+      const response = await getApi(url)
+      const responseLength = response.length
+      const responseName = response.map((data) => data.name)
+      setData({ length: responseLength, data: responseName })
     }
-    fetch()
+    const fetchCountries = async () => {
+      const urlCoutries = `${process.env.REACT_APP_BASE_URL}/name/${name}?fullText=true`
+      setCountries(await getApi(urlCoutries))
+    }
+
+    fetchCountries()
+    const country = countries ? countries[0] : {}
+    if (country) {
+      const callingCode = callingCodeSelector(country.idd)
+      const countryCurrency = currencySelector(country.currencies)
+      const urlCallCodes = `${process.env.REACT_APP_CALL_CODE_URL}/${callingCode}`
+      const urlCurrencies = `${process.env.REACT_APP_CURRENCY_URL}/${countryCurrency}`
+      fecthData(urlCallCodes, setCallCodes)
+      fecthData(urlCurrencies, setValutas)
+    }
     // setIsLoading(false)
-  }, [name])
+  }, [name, countries])
 
   return (
     <div className='detail-container'>
@@ -30,7 +50,7 @@ const DetailPage = () => {
         title='Back to Homepage'
         onClick={() => navigate('/')}
       />
-      {data.map((country, index) => {
+      {countries.map((country, index) => {
         const {
           altSpellings,
           capital,
@@ -41,10 +61,11 @@ const DetailPage = () => {
           region,
           subregion,
         } = country
-
-        const { root, suffixes } = idd
-        const currency = Object.keys(currencies)
+        const latlangs = latlng[0] + `, ` + latlng[1]
+        const callingCode = callingCodeSelector(idd)
+        const countryCurrency = currencySelector(currencies)
         const renderSpelling = altSpellings.map((spell) => <p>{spell}</p>)
+
         return (
           <div
             key={index}
@@ -55,10 +76,10 @@ const DetailPage = () => {
                 <h1>{name}</h1>
                 <AntdImage
                   alt={name}
+                  className='img-flag'
                   src={flags.png}
                   width={46}
                   height={30}
-                  style={{ border: 'solid 1px black' }}
                 />
               </div>
               <span>{renderSpelling}</span>
@@ -67,17 +88,26 @@ const DetailPage = () => {
               <div className='detail-first'>
                 <AntdCard className='detail-latlong'>
                   <p>LatLong</p>
-                  <h1>
-                    {latlng[0]}, {latlng[1]}
-                  </h1>
+                  <h1>{latlangs}</h1>
+                  <div>
+                    <AntdImage
+                      alt={name}
+                      className='img-globe'
+                      height={120}
+                      src={imageGlobe}
+                      width={205}
+                    />
+                  </div>
                 </AntdCard>
                 <div className='detail-call'>
                   <p>Calling Code</p>
-                  <h1>
-                    {root}
-                    {suffixes[0]}
-                  </h1>
-                  <p>1 country with this calling code</p>
+                  <h1>{callingCode}</h1>
+                  <div>
+                    <AntdTooltip data={callCodes.data}>
+                      <p>{callCodes.length} country</p>
+                    </AntdTooltip>
+                    <span>&nbsp;with this calling code</span>
+                  </div>
                 </div>
               </div>
               <div className='detail-second'>
@@ -94,8 +124,13 @@ const DetailPage = () => {
                 </AntdCard>
                 <div className='detail-currency'>
                   <p>Currency</p>
-                  <h1>{currency[0]}</h1>
-                  <p>1 country with this currency</p>
+                  <h1>{countryCurrency[0]}</h1>
+                  <div>
+                    <AntdTooltip data={valutas.data}>
+                      <p>{valutas.length} country</p>
+                    </AntdTooltip>
+                    <span>&nbsp;with this currency</span>
+                  </div>
                 </div>
               </div>
             </div>
