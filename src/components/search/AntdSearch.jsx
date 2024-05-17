@@ -1,3 +1,4 @@
+import { SearchOutlined, SyncOutlined } from '@ant-design/icons'
 import { Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -7,27 +8,30 @@ const AntdSearch = () => {
   const navigate = useNavigate()
 
   let timeout
-  const fetch = (value, callback) => {
+  const fetch = (value, callback, searching) => {
     if (timeout) {
       clearTimeout(timeout)
       timeout = null
     }
 
     const option = async () => {
-      const url = `${process.env.REACT_APP_API_URL}/name`
+      searching(true)
+      const url = `${process.env.REACT_APP_BASE_URL}/name`
       const data = await getApi(`${url}/${value}`)
       const isArray = Array.isArray(data)
       if (isArray) {
-        const country = data.map((d) => d.name)
+        const topCountry = data.slice(0, 5)
+        const country = topCountry.map((d) => d.name)
         const countryCommon = country.map((d) => d.common)
         callback(countryCommon)
       } else {
         callback([])
       }
+      searching(false)
     }
 
     if (value) {
-      timeout = setTimeout(option, 1000)
+      timeout = setTimeout(option, 700)
     } else {
       callback([])
     }
@@ -36,14 +40,16 @@ const AntdSearch = () => {
   const SearchInput = (props) => {
     const [data, setData] = useState([])
     const [value, setValue] = useState()
+    const [isSearch, setIsSearch] = useState(false)
 
     useEffect(() => {
       if (value) {
         navigate(`/detail/${value}`)
       }
     }, [value])
+
     const handleSearch = (newValue) => {
-      fetch(newValue, setData)
+      fetch(newValue, setData, setIsSearch)
     }
 
     const handleChange = (newValue) => {
@@ -57,6 +63,7 @@ const AntdSearch = () => {
       }))
 
     const renderNotFound = <p style={{ color: 'red' }}>Data not found</p>
+    const suffix = isSearch ? <SyncOutlined spin /> : <SearchOutlined />
 
     return (
       <Select
@@ -65,7 +72,7 @@ const AntdSearch = () => {
         placeholder={props.placeholder}
         style={props.style}
         defaultActiveFirstOption={false}
-        suffixIcon={null}
+        suffixIcon={suffix}
         filterOption={false}
         onSearch={handleSearch}
         onChange={handleChange}
@@ -77,7 +84,7 @@ const AntdSearch = () => {
 
   return (
     <SearchInput
-      placeholder='input search text'
+      placeholder='Input Search Text'
       style={{
         width: 700,
       }}

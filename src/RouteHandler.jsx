@@ -14,6 +14,10 @@ const RouteHandler = () => {
         path='/detail/:name'
         element={<DetailPage />}
       />
+      <Route
+        path='*'
+        element={<HomePage />}
+      />
     </Routes>
   )
 }
