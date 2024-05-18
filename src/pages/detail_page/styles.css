@@ -72,7 +72,11 @@
   flex-direction: row;
   overflow: hidden;
 }
-
+/* =============== */
+.valutas {
+  display: flex;
+  flex-direction: column;
+}
 /* =============== */
 .detail-call,
 .detail-currency {

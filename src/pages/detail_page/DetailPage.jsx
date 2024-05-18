@@ -25,6 +25,7 @@ const DetailPage = () => {
       const responseName = response.map((data) => data.name)
       setData({ length: responseLength, data: responseName })
     }
+
     const fetchCountries = async () => {
       const urlCoutries = `${process.env.REACT_APP_BASE_URL}/name/${name}?fullText=true`
       setCountries(await getApi(urlCoutries))
@@ -36,9 +37,13 @@ const DetailPage = () => {
       const callingCode = callingCodeSelector(country.idd)
       const countryCurrency = currencySelector(country.currencies)
       const urlCallCodes = `${process.env.REACT_APP_CALL_CODE_URL}/${callingCode}`
-      const urlCurrencies = `${process.env.REACT_APP_CURRENCY_URL}/${countryCurrency}`
       fecthData(urlCallCodes, setCallCodes)
-      fecthData(urlCurrencies, setValutas)
+
+      countryCurrency.forEach((item) => {
+        const urlCurrencies = `${process.env.REACT_APP_CURRENCY_URL}/${item}`
+        fecthData(urlCurrencies, setValutas)
+      })
+
       setIsLoading(false)
     }
   }, [name, countries])
@@ -55,8 +60,8 @@ const DetailPage = () => {
       region,
       subregion,
     } = country
-    
-    const latlangs = roundNumber(latlng[0]) + `, ` + roundNumber(latlng[1])
+
+    const latlangs = roundNumber(latlng[0]).concat(', ', roundNumber(latlng[1]))
     const callingCode = callingCodeSelector(idd)
     const countryCurrency = currencySelector(currencies)
     const renderSpelling = altSpellings.map((spell) => <p>{spell}</p>)
@@ -114,13 +119,17 @@ const DetailPage = () => {
             {/* ================ CURRECY ====================== */}
             <div className='detail-currency'>
               <p>Currency</p>
-              <h1>{countryCurrency[0]}</h1>
-              <div>
-                <AntdTooltip data={valutas.data}>
-                  <p>{valutas.length} country</p>
-                </AntdTooltip>
-                <span>&nbsp;with this currency</span>
-              </div>
+              {countryCurrency.map((curr) => (
+                <div className='valutas'>
+                  <h1>{curr}</h1>
+                  <div>
+                    <AntdTooltip data={valutas.data}>
+                      <p>{valutas.length} country</p>
+                    </AntdTooltip>
+                    <span>&nbsp;with this currency</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

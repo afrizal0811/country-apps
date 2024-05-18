@@ -25,7 +25,11 @@ const AntdSearch = () => {
         const topCountry = data.slice(0, 5)
         const country = topCountry.map((d) => d.name)
         const countryCommon = country.map((d) => d.common)
-        callback(countryCommon)
+        const countryOfficial = country.map((d) => d.official)
+        const mappedCountry = countryCommon.map(
+          (value, index) => value + ` (` + countryOfficial[index] + `)`
+        )
+        callback(mappedCountry)
       } else {
         callback(null)
       }
@@ -46,7 +50,8 @@ const AntdSearch = () => {
 
     useEffect(() => {
       if (value) {
-        navigate(`/detail/${value}`)
+        const commonName = value.substring(0, value.indexOf('(') - 1)
+        navigate(`/detail/${commonName}`)
       }
     }, [value])
 
