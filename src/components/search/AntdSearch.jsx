@@ -1,10 +1,10 @@
 import { SearchOutlined, SyncOutlined } from '@ant-design/icons'
 import { Select } from 'antd'
+import { isArray, isNull, map } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getApi } from '../../utilities/handleApi'
 import IsMobile from '../../utilities/isMobile'
-
 const AntdSearch = () => {
   const navigate = useNavigate()
   const isMobile = IsMobile()
@@ -20,13 +20,13 @@ const AntdSearch = () => {
       searching(true)
       const url = `${process.env.REACT_APP_BASE_URL}/name`
       const data = await getApi(`${url}/${value}`)
-      const isArray = Array.isArray(data)
-      if (isArray) {
+      if (isArray(data)) {
         const topCountry = data.slice(0, 5)
         const country = topCountry.map((d) => d.name)
         const countryCommon = country.map((d) => d.common)
         const countryOfficial = country.map((d) => d.official)
-        const mappedCountry = countryCommon.map(
+        const mappedCountry = map(
+          countryCommon,
           (value, index) => value + ` (` + countryOfficial[index] + `)`
         )
         callback(mappedCountry)
@@ -83,7 +83,7 @@ const AntdSearch = () => {
         filterOption={false}
         onSearch={handleSearch}
         onChange={handleChange}
-        notFoundContent={data === null ? renderNotFound : null}
+        notFoundContent={isNull(data) && renderNotFound}
         options={handleOption(data)}
       />
     )
