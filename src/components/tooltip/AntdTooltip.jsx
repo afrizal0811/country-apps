@@ -1,8 +1,9 @@
 import { Tooltip } from 'antd'
 import React from 'react'
-
+import { isEmpty } from 'lodash'
 const AntdTooltip = (props) => {
-  const { data, children } = props
+  const { data, children, text } = props
+
   const title = (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {(data || []).map((d) => (
@@ -16,7 +17,7 @@ const AntdTooltip = (props) => {
       arrow={false}
       className='tooltip-content'
       placement='bottom'
-      title={title}
+      title={isEmpty(data) ? text : title}
     >
       {children}
     </Tooltip>

@@ -11,9 +11,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 3rem;
+  gap: 1rem;
 }
 
 .home-content h1 {
   font-size: 70px;
+}
+
+.flag-container {
+  display: flex;
+  gap: 0.5rem;
+}
+.flag-content {
+  border: solid 1px var(--color-black);
 }
